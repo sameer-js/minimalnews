@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal News - Register</title>
+</head>
+
+<body>
+    <h1>Registerrrr</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.email.label }}{{ form.email }}
+        {{ form.preferred_time.label }}{{ form.preferred_time }}
+        {{ form.politics }}{{ form.politics.label }}
+        {{ form.sports }}{{ form.sports.label }}
+        {{ form.finance }}{{ form.finance.label }}
+        {{ form.lifestyle }}{{ form.lifestyle.label }}
+        <br>
+        {{ form.submit }}
+    </form>
+</body>
+
+</html>
