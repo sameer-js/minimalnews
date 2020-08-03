@@ -1,9 +1,11 @@
 from flask import Flask, render_template
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 
 from config import config
 
 db = SQLAlchemy()
+mail = Mail()
 
 
 def create_app(config_name):
@@ -11,6 +13,7 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
 
     db.init_app(app)
+    mail.init_app(app)
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')

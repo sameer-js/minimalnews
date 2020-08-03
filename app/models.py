@@ -1,5 +1,7 @@
-from . import db
+from flask import current_app
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
+from . import db
 
 categories = {
     'politics': 1,
@@ -42,3 +44,22 @@ class User(db.Model):
             if self.is_subscribed(category):
                 subscription_list.append(category)
         return subscription_list
+
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.id}).decode('utf-8')
+
+    @classmethod
+    def confirm(cls, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+
+        if not cls.query.filter_by(id=data.get('confirm')):
+            return False
+        user = cls.query.filter_by(id=data.get('confirm')).first()
+        user.confirmed = True
+        db.session.add(user)
+        return True
