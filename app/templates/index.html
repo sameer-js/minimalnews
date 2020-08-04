@@ -17,7 +17,7 @@
       </nav>
       <a href="{{ url_for('main.index') }}" class="logo">Minimal News</a>
       <nav class="right">
-        <a href="#" class="button alt">Sign Up</a>
+        <a href="{{ url_for('auth.register') }}" class="button alt">Sign Up</a>
       </nav>
     </header>
 
@@ -28,7 +28,7 @@
         <li><a href="{{ url_for('main.about') }}">About</a></li>
       </ul>
       <ul class="actions vertical">
-        <li><a href="#" class="button fit">Sign Up</a></li>
+        <li><a href="{{ url_for('auth.register') }}" class="button fit">Sign Up</a></li>
       </ul>
     </nav>
 
@@ -97,7 +97,7 @@
             starting today.
           </p>
           <footer>
-            <a href="#" class="button">Sign Up</a> &emsp; &emsp;
+            <a href="{{ url_for('auth.register') }}" class="button">Sign Up</a> &emsp; &emsp;
             <a href="{{ url_for('main.about') }}" class="button">Learn More</a>
           </footer>
         </figure>
