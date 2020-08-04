@@ -22,7 +22,7 @@ def register():
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm your subscription',
                    '/auth/email/confirm', username=username, token=token)
-        return redirect(url_for('main.index'))
+        flash('A confirmation link has been sent to you via email.')
     return render_template('auth/register.html', form=form)
 
 
@@ -30,6 +30,12 @@ def register():
 def confirm(token):
     if User.confirm(token):
         db.session.commit()
-        return redirect(url_for('main.index'))
+        return redirect(url_for('auth.success'))
     else:
-        return redirect('auth.register')
+        flash('The confirmation link is invalid or has expired!')
+    return redirect('auth.register')
+
+
+@auth.route('/success')
+def success():
+    return render_template('auth/success.html')
