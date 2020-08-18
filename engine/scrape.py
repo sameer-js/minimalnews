@@ -15,5 +15,6 @@ def scrape_article(url):
     article_content = ''
     for paragraph in paragraphs:
         article_content += paragraph.text
+        article_content += "\n"
 
     return article_content
