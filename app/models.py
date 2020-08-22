@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
@@ -63,3 +65,16 @@ class User(db.Model):
         user.confirmed = True
         db.session.add(user)
         return True
+
+
+class News(db.Model):
+    __tablename__='news'
+    id = db.Column(db.Integer, primary_key=True)
+    headline = db.Column(db.String(128), unique=True)
+    url = db.Column(db.String(256))
+    summarized_body = db.Column(db.Text())
+    category = db.Column(db.String(16))
+    date = db.Column(db.DateTime(), default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f'[{self.date}]: {self.headline}'
