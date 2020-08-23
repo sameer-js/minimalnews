@@ -6,9 +6,9 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db
 
 categories = {
-    'politics': 1,
+    'nepal': 1,
     'sports': 2,
-    'finance': 4,
+    'business': 4,
     'lifestyle': 8,
 }
 
@@ -78,3 +78,4 @@ class News(db.Model):
     
     def __repr__(self):
         return f'[{self.date}]: {self.headline}'
+    

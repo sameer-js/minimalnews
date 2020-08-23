@@ -1,0 +1,7 @@
+{% for news in news_obj %}
+{% if user.is_subscribed(news.category) %}
+<h2>{{ news.headline }}</h2>
+<p>{{ news.summarized_body }}</p>
+<br>
+{% endif %}
+{% endfor %}
