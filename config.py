@@ -12,9 +12,10 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_SUBJECT_PREFIX = '[MinimalNews]'
-    MAIL_SENDER = f'Minaimal News <{os.environ.get(MAIL_SENDER)}>'
+    MAIL_SENDER = f"Minaimal News <{os.environ.get('MAIL_SENDER')}>"
     MINIMAL_NEWS_ADMIN = os.environ.get('MINIMAL_NEWS_ADMIN')
-    
+    SSL_REDIRECT = False
+
     @staticmethod
     def init_app(app):
         pass
@@ -33,9 +34,8 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-            'DATABASE_URI' or 'sqlite:///' + os.path.join(
-                basedir, 'data.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
     @classmethod
     def init_app(cls, app):
@@ -61,12 +61,31 @@ class ProductionConfig(Config):
         app.logger.addHandler(mail_handler)
 
 
+class HerokuConfig(ProductionConfig):
+    SSL_REDIRECT = True if os.environ.get('DYNO') else False
+    
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+        
+        # handle reverse proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        # log to stderr
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+        
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
+    'heroku': HerokuConfig,
 
     'default': DevelopmentConfig
-
-
 }
+
