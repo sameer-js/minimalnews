@@ -1,3 +1,4 @@
+from datetime import date
 from threading import Thread
 
 from flask import current_app, render_template
@@ -19,3 +20,16 @@ def send_email(to, subject, template, **kwargs):
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
     return thr
+
+
+def distribute_news(users, template, **kwargs):
+    app = current_app._get_current_object()
+    with mail.connect() as conn:
+        for user in users:
+            print(f'Sending email to {user.email}....')
+            subject = f'Minimal News for {date.today()}'
+            msg = Message(subject=subject, sender=app.config['MAIL_SENDER'],
+                          recipients=[user.email])
+            msg.body = render_template(template + '.html', user=user, **kwargs)
+
+            conn.send(msg)
