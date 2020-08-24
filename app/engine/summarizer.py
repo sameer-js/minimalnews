@@ -2,6 +2,7 @@ from heapq import nlargest
 import string
 
 import spacy
+import en_core_web_sm
 from spacy.lang.en.stop_words import STOP_WORDS
 
 
@@ -9,7 +10,7 @@ def summarize(text, by=30):
     """ Returns a summarized version of the text of the length 'by' % of the original text"""
     punctuation = string.punctuation
     punctuation += '\n'
-    nlp = spacy.load('en_core_web_sm')
+    nlp = en_core_web_sm.load()
     doc = nlp(text)
 
     word_frequency = dict()
