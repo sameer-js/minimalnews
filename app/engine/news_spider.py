@@ -1,5 +1,6 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
+from sqlalchemy.exc import IntegrityError
 
 from .. import db
 from ..models import News
@@ -23,7 +24,10 @@ class EkantipurSpider(scrapy.Spider):
             summary = summarize(scrape_article(link))
             news = News(headline=headline, url=link, summarized_body=summary, category=category)
             db.session.add(news)
-        db.session.commit()
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
 
         for objects in EkantipurSpider.category:
             next_page = f'https://thehimalayantimes.com/category/{objects}/'
