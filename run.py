@@ -37,3 +37,9 @@ def distribute():
     news_obj = News.query.limit(12)
     distribute_news(users, 'newsletter', news_obj=news_obj)
 
+
+@app.cli.command()
+def deploy():
+    """ Run deployment tasks """
+    db.create_all()
+
