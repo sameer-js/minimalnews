@@ -10,19 +10,22 @@ from .summarizer import summarize
 
 class EkantipurSpider(scrapy.Spider):
     name = 'enews'
-    category = ['sports', 'business', 'lifestyle']
+    category = ['world', 'business', 'sports',
+                'entertainment', 'science-technology']
 
     start_urls = [
         'https://thehimalayantimes.com/category/nepal'
     ]
 
     def parse(self, response):
+        post = response.css('.col-sm-8 li')
         for i in range(3):
-            headline = response.css('.col-sm-4 a').css('::text').extract()[i]
-            link = response.css('h4 a::attr(href)').extract()[i]
+            headline = post.css('a::attr(title)')[i].get()
+            link = post.css('a::attr(href)')[i].get()
             category = link.split('/')[3]
             summary = summarize(scrape_article(link))
-            news = News(headline=headline, url=link, summarized_body=summary, category=category)
+            news = News(headline=headline, url=link, summarized_body=summary,
+                        category=category)
             db.session.add(news)
             try:
                 db.session.commit()
