@@ -30,6 +30,6 @@ def distribute_news(users, template, **kwargs):
             subject = f'Minimal News for {date.today()}'
             msg = Message(subject=subject, sender=app.config['MAIL_SENDER'],
                           recipients=[user.email])
-            msg.body = render_template(template + '.html', user=user, **kwargs)
+            msg.html = render_template(template + '.html', user=user, **kwargs)
 
             conn.send(msg)

@@ -14,7 +14,8 @@ def register():
     if form.validate_on_submit():
         username = form.email.data.split('@')[0]
         user = User(email=form.email.data,
-                    preferred_time=form.preferred_time.data)
+                    preferred_time=form.preferred_time.data,
+                    corona_update=form.corona_update.data)
         for category in form.categories.data:
             user.add_subscription(category)
         db.session.add(user)

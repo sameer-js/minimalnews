@@ -16,8 +16,15 @@ class RegistrationForm(FlaskForm):
                         DataRequired(), Email(message='Must be an email')])
     preferred_time = RadioField('Preferred time', choices=[(
         'morning', 'Morning'), ('noon', 'Noon'), ('evening', 'Evening')], validators=[DataRequired()])
-    categories = MultiCheckboxField('Categories', choices=[('nepal', 'Nepal'), (
-        'sports', 'Sports'), ('business', 'Finance'), ('lifestyle', 'Lifestyle')])
+    categories = MultiCheckboxField('Categories', choices=[
+        ('nepal', 'Nepal'),
+        ('sports', 'Sports'),
+        ('business', 'Finance'),
+        ('lifestyle', 'Lifestyle'),
+        ('entertainment', 'Entertainment'),
+        ('technology', 'Technology'),
+        ], validators=[DataRequired()])
+    corona_update = BooleanField('Corona Update')
     submit = SubmitField('Register')
 
     def validate_email(self, field):

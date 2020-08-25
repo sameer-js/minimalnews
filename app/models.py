@@ -10,6 +10,8 @@ categories = {
     'sports': 2,
     'business': 4,
     'lifestyle': 8,
+    'entertainment': 16,
+    'technology': 32,
 }
 
 
@@ -19,6 +21,7 @@ class User(db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     preferred_time = db.Column(db.String(8), index=True)
     subscriptions = db.Column(db.Integer)
+    corona_update = db.Column(db.Boolean, default=False)
     confirmed = db.Column(db.Boolean, default=False)
 
     def __init__(self, **kwargs):
