@@ -18,9 +18,9 @@ class RegistrationForm(FlaskForm):
         'morning', 'Morning'), ('noon', 'Noon'), ('evening', 'Evening')], validators=[DataRequired()])
     categories = MultiCheckboxField('Categories', choices=[
         ('nepal', 'Nepal'),
-        ('sports', 'Sports'),
+        ('world', 'World'),
         ('business', 'Finance'),
-        ('lifestyle', 'Lifestyle'),
+        ('sports', 'Sports'),
         ('entertainment', 'Entertainment'),
         ('technology', 'Technology'),
         ], validators=[DataRequired()])

@@ -7,11 +7,11 @@ from . import db
 
 categories = {
     'nepal': 1,
-    'sports': 2,
+    'world': 2,
     'business': 4,
-    'lifestyle': 8,
+    'sports': 8,
     'entertainment': 16,
-    'technology': 32,
+    'science-technology': 32,
 }
 
 
