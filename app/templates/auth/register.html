@@ -2,23 +2,105 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minimal News - Register</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <title>Minimal News - Register</title>
 </head>
 
 <body>
-    <h1>Registerrrr</h1>
-    <form action="" method="post">
+  <header>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid-nav">
+        <h1 style="color:#ffffff;">Minimal News</h1>
+      </div>
+    </nav>
+  </header>
+ 
+  <div class="card" style="width: 40%; margin: auto ;margin-top:10px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="card-header">
+      <h1 style="text-align: center;">Register</h1>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="">
         {{ form.hidden_tag() }}
-        {{ form.email.label }}{{ form.email }}
-        {{ form.preferred_time.label }}{{ form.preferred_time }}
-        {{ form.categories }}
-        {{ form.corona_update.label }}{{ form.corona_update }}
-        <br>
-        {{ form.submit }}
-    </form>
+        <div class="form-group row">
+          {{ form.email.label(class="col-sm-3 col-form-label") }}
+          <div class="col-sm-9">
+            {% if form.email.errors %}
+            {{ form.email(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{ form.email(class="form-control")}}
+            {% endif%}
+          </div>
+        </div>
+        <fieldset class="form-group">
+          <div class="row">
+            {{ form.preferred_time.label(class="col-form-label col-sm-3 pt-0") }}
+            {% if form.preferred_time.errors %}
+            <div class="col-sm-9">
+              {% for time in form.preferred_time %}
+              <div class="form-check">
+                {{ time(class="form-check-input is-invalid") }}
+                {{ time.label(class="form-check-label") }}
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div class="col-sm-9">
+              {% for time in form.preferred_time %}
+              <div class="form-check">
+                {{ time(class="form-check-input") }}
+                {{ time.label(class="form-check-label") }}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </fieldset>
+        <div class="form-group row">
+          {{ form.categories.label(class="col-sm-3") }}
+          <div class="col-sm-9">
+            {% for category in form.categories %}
+            <div class="form-check">
+              {{ category(class="form-check-input") }}
+              {{ category.label(class="form-check-label")}}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">Additional</div>
+          <div class="col-sm-9">
+            <div class="form-check">
+              {{ form.corona_update(class="form-check-input")}}
+              {{ form.corona_update.label(class="form-check-label")}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12 text-center">
+            {{ form.submit(class="btn btn-dark")}}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>
-

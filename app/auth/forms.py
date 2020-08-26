@@ -13,17 +13,18 @@ class MultiCheckboxField(SelectMultipleField):
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[
-                        DataRequired(), Email(message='Must be an email')])
+                        DataRequired(), Email(message='Must be an email!')])
     preferred_time = RadioField('Preferred time', choices=[(
-        'morning', 'Morning'), ('noon', 'Noon'), ('evening', 'Evening')], validators=[DataRequired()])
+        'morning', 'Morning'), ('noon', 'Noon'), ('evening', 'Evening')],
+        validators=[DataRequired(message='Cannot be empty!')])
     categories = MultiCheckboxField('Categories', choices=[
         ('nepal', 'Nepal'),
         ('world', 'World'),
         ('business', 'Finance'),
         ('sports', 'Sports'),
         ('entertainment', 'Entertainment'),
-        ('technology', 'Technology'),
-        ], validators=[DataRequired()])
+        ('science-technology', 'Technology'),
+    ])
     corona_update = BooleanField('Corona Update')
     submit = SubmitField('Register')
 

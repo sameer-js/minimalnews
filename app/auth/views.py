@@ -23,7 +23,11 @@ def register():
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm your subscription',
                    '/auth/email/confirm', username=username, token=token)
-        flash('A confirmation link has been sent to you via email.')
+        flash('A confirmation link has been sent to you via email.', 'secondary')
+        form.email.data = ''
+        form.preferred_time.data = ''
+        form.corona_update.data = ''
+        form.categories.data = ''
     return render_template('auth/register.html', form=form)
 
 
