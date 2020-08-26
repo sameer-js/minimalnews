@@ -1,10 +1,15 @@
+from app.email import distribute_news
+from app.engine import news_spider
+from app.models import News, User, categories
+from app import create_app, db
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+import requests
 
-from app import create_app, db
-from app.models import News, User, categories
-from app.engine import news_spider
-from app.email import distribute_news
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 app = create_app(os.environ.get('FLASK_CONFIG', 'default'))
 
@@ -20,7 +25,7 @@ def test():
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
-   
+
 
 @app.cli.command()
 def scrape():
@@ -33,9 +38,14 @@ def distribute():
     """ Distribute the newsletter """
     batch = {0: 'morning', 6: 'noon', 12: 'evening'}
     users = User.query.filter_by(confirmed=True,
-                                preferred_time=batch.get(datetime.utcnow().hour))
+                                 preferred_time=batch.get(datetime.utcnow().hour))
     news_obj = News.query.limit(12)
-    distribute_news(users, 'newsletter', news_obj=news_obj)
+    try:
+        corona_stat = requests.get(
+                'https://nepalcorona.info/api/v1/data/nepal/').json()
+    except:
+        pass
+    distribute_news(users, 'newsletter', news_obj=news_obj, corona_stat=corona_stat)
 
 
 @app.cli.command()
