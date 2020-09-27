@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, url_for
+from flask import flash, redirect, render_template, request, url_for
 
 from .. import db
 from ..email import send_email
@@ -10,25 +10,23 @@ from .forms import RegistrationForm
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        username = form.email.data.split('@')[0]
-        user = User(email=form.email.data,
-                    preferred_time=form.preferred_time.data,
-                    corona_update=form.corona_update.data)
-        for category in form.categories.data:
+    if request.method == "POST":
+        email = request.form.get('email')
+        username = email.split('@')[0]
+        preferred_time = request.form.get('time')
+        corona_update = True if request.form.get('category_extra') else False
+        categories = request.form.getlist('category')
+        user = User(email=email, preferred_time=preferred_time,
+                    corona_update=corona_update)
+        for category in categories:
             user.add_subscription(category)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm your subscription',
                    '/auth/email/confirm', username=username, token=token)
-        flash('A confirmation link has been sent to you via email.', 'secondary')
-        form.email.data = ''
-        form.preferred_time.data = ''
-        form.corona_update.data = ''
-        form.categories.data = ''
-    return render_template('auth/register.html', form=form)
+        flash('A confirmation link has been sent to via email.')
+    return render_template('auth/register.html')
 
 
 @auth.route('/confirm/<token>')
