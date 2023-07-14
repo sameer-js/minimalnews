@@ -1,4 +1,4 @@
-# Minimal News
+# minimalnews
 
 Minimal curated news delivered right to your inbox.
 
