@@ -76,7 +76,7 @@ urllib3==1.26.17
 
 w3lib==1.22.0
 wasabi==0.7.1
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 wrapt==1.12.1
 WTForms==2.3.3
 zope.interface==5.1.0
