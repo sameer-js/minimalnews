@@ -70,7 +70,7 @@ thinc==7.4.1
 toml==0.10.1
 tqdm==4.48.2
 
-Twisted==22.10.0
+Twisted==23.10.0
 
 urllib3==1.26.18
 
