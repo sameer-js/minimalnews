@@ -1,6 +1,6 @@
 # minimalnews
 
-Minimal curated news delivered right to your inbox.
+Minimal curated news delivered right to your inbox
 
 ### Running locally
 To run the app locally in development mode:
